@@ -1,0 +1,185 @@
+﻿@model IEnumerable<PetAdoptionAPI.Models.Adoptions>
+
+@{
+    ViewData["Title"] = "Adoptions List";
+}
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&display=swap" rel="stylesheet">
+
+<div class="card shadow-sm border-0" style="background-color: #FFF9E6; border-radius: 12px;">
+    <div class="card-body">
+        <br />
+        <h1 class="mb-4 text-center"
+            style="font-family: 'Crimson Pro', serif;
+                   font-weight: 300;
+                   color: #8b4513;
+                   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);">
+            Adoption Lists and Status
+        </h1>
+
+        <table class="table table-hover">
+            <thead style="background-color: #decfa8; color: #5c4327; box-shadow: 0px 2px 5px rgba(0,0,0,0.2);">
+                <tr>
+                    <th><i class="bi bi-paw-fill text-dark"></i> Pet</th>
+                    <th><i class="bi bi-person-fill text-dark"></i> User</th>
+                    <th><i class="bi bi-check-circle text-dark"></i> Status</th>
+                    <th><i class="bi bi-calendar3 text-dark"></i> Request Date</th>
+                    <th><i class="bi bi-gear text-dark"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var adoption in Model)
+                {
+                    <tr style="background-color: #fdf7e3;">
+                        <td>@adoption.PetName</td>
+                        <td>@adoption.UserName</td>
+                        <td>
+                            @if (adoption.Status == "Approved")
+                            {
+                                <span class="badge" style="background-color: #a3d9a5; color: #3d6b3d;">Approved</span>
+                            }
+                            else if (adoption.Status == "Pending")
+                            {
+                                <span class="badge" style="background-color: #f7d285; color: #805c20;">Pending</span>
+                            }
+                            else
+                            {
+                                <span class="badge" style="background-color: #f8a5a5; color: #8b2d2d;">Rejected</span>
+                            }
+                        </td>
+                        <td>@adoption.RequestDate.ToShortDateString()</td>
+                        <td>
+                            <!-- View Details Trigger -->
+                            <a href="#" class="btn btn-sm" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);"
+                               data-bs-toggle="modal"
+                               data-bs-target="#adoptionDetailsModal-@adoption.AdoptionID"
+                               data-bs-toggle="tooltip"
+                               title="View Details">
+                                <i class="bi bi-info-circle"></i>
+                            </a>
+
+                            <a asp-action="Edit" asp-route-id="@adoption.AdoptionID" class="btn btn-sm" style="background-color: #f7d285; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);" data-bs-toggle="tooltip" title="Edit Pet">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                            <!-- Delete Trigger -->
+                            <a href="#" class="btn btn-sm" style="background-color: #f8a5a5; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);"
+                               data-bs-toggle="modal"
+                               data-bs-target="#adoptionDeleteModal-@adoption.AdoptionID"
+                               data-bs-toggle="tooltip"
+                               title="Delete Adoption">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Modal for Viewing Adoption Details -->
+                    <div class="modal fade" id="adoptionDetailsModal-@adoption.AdoptionID" tabindex="-1" aria-labelledby="adoptionDetailsModalLabel-@adoption.AdoptionID" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 10px; background-color: #fff7e6;">
+                                <div class="modal-header" style="background-color: #ffd8a8; border-bottom: 1px solid #ffc078;">
+                                    <h5 class="modal-title" id="adoptionDetailsModalLabel-@adoption.AdoptionID" style="color: #6a4c37; font-family: 'Merriweather', serif; font-weight: bold;">
+                                        Adoption Details
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="font-family: 'Roboto', sans-serif; color: #5c534d;">
+                                    <ul class="list-unstyled">
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Pet Name  : </span>
+                                            <span>@adoption.PetName</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">User Name  : </span>
+                                            <span>@adoption.UserName</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Request Date  : </span>
+                                            <span>@adoption.RequestDate.ToShortDateString()</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Status  : </span>
+                                            <span>@adoption.Status</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="modal-footer" style="background-color: #ffe8cc; border-top: 1px solid #ffc078;">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 20px;">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal for Deleting Adoption -->
+                    <div class="modal fade" id="adoptionDeleteModal-@adoption.AdoptionID" tabindex="-1" aria-labelledby="adoptionDeleteModalLabel-@adoption.AdoptionID" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 10px; background-color: #fff7e6;">
+                                <div class="modal-header" style="background-color: #ffd8a8; border-bottom: 1px solid #ffc078;">
+                                    <h5 class="modal-title" id="adoptionDeleteModalLabel-@adoption.AdoptionID" style="color: #6a4c37; font-family: 'Merriweather', serif; font-weight: bold;">
+                                        Delete Adoption
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h6>Are you sure you want to delete this adoption?</h6>
+                                    <ul class="list-unstyled mt-3" style="font-family: 'Roboto', sans-serif; color: #495057;">
+                    <li><strong>Adopter Name:</strong> @adoption.UserName</li>
+                    <li><strong>Pet Name:</strong> @adoption.PetName</li>
+                    <li><strong>Adoption Date:</strong> @adoption.RequestDate.ToString("dd MMM yyyy")</li>
+                </ul>
+                                    <form method="post" asp-action="Delete" asp-route-id="@adoption.AdoptionID">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="#" class="btn btn-warning" data-bs-dismiss="modal">Cancel</a>
+</form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="d-flex justify-content-end">
+    <a asp-action="Create" class="btn mt-4" style="background-color: #decfa8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+        <i class="bi bi-plus-circle"></i> Add
+    </a>
+    <a class="btn mt-4 ms-3" style="background-color: #decfa8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);" onclick="downloadReport()">
+        <i class="bi bi-download"></i> PDF
+    </a>
+    </div>
+    <br />
+@section Scripts {
+    <script>
+                    // Enable Bootstrap Tooltips
+                document.addEventListener('DOMContentLoaded', function () {
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+    <script>
+    function downloadReport() {
+            var form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/Home/GenerateReportAdoption";
+                document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+            }
+             </script>
+         
+    <script>
+        // Check if TempData contains a success message and display it as an alert
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                alert('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+}
+
+

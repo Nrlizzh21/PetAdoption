@@ -1,0 +1,192 @@
+﻿@model IEnumerable<PetAdoptionAPI.Models.Pets>
+
+@{
+    ViewData["Title"] = "Pets List";
+}
+
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&display=swap" rel="stylesheet">
+
+
+<div class="card shadow-sm border-0" style="background-color: #FFF9E6; border-radius: 12px;">
+    <div class="card-body">
+        <br />
+        <h1 class="mb-4 text-center"
+            style="font-family: 'Crimson Pro', serif;
+           font-weight: 300; /* Light weight for a softer look */
+           color: #8b4513; /* Soft chocolate color */
+           text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);">
+            Pets Availability for Adoption
+        </h1>
+        <table class="table table-hover">
+            <thead style="background-color: #decfa8; color: #5c4327; box-shadow: 0px 2px 5px rgba(0,0,0,0.2);">
+                <tr>
+                    <th><i class="bi bi-paw-fill text-dark"></i> Name</th>
+                    <th><i class="bi bi-calendar3 text-dark"></i> Age</th>
+                    <th><i class="bi bi-journal text-dark"></i> Breed</th>
+                    <th><i class="bi bi-patch-check-fill text-dark"></i> Adoption Status</th>
+                    <th><i class="bi bi-gear text-dark"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pet in Model)
+                {
+                        <tr style="background-color: #fdf7e3;">
+                            <td>@pet.Name</td>
+                            <td>@pet.Age</td>
+                            <td>@pet.Breed</td>
+                            <td>
+                            @if (pet.AdoptionStatus == "Available")
+                            {
+                                        <span class="badge" style="background-color: #a3d9a5; color: #3d6b3d;">Available</span>
+                            }
+                            else if (pet.AdoptionStatus == "Pending")
+                            {
+                                        <span class="badge" style="background-color: #f7d285; color: #805c20;">Pending</span>
+                            }
+                            else
+                            {
+                                        <span class="badge" style="background-color: #f8a5a5; color: #8b2d2d;">Adopted</span>
+                            }
+                            </td>
+                        <td>
+                            <!-- View Details Trigger -->
+                            <a href="#" class="btn btn-sm" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);"
+                               data-bs-toggle="modal"
+                               data-bs-target="#petDetailsModal-@pet.PetID"
+                               data-bs-toggle="tooltip"
+                               title="View Details">
+                                <i class="bi bi-info-circle"></i>
+                            </a>
+
+                            <a asp-action="Edit" asp-route-id="@pet.PetID" class="btn btn-sm" style="background-color: #f7d285; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);" data-bs-toggle="tooltip" title="Edit Pet">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+
+                            <!-- Delete Trigger -->
+                            <a href="#" class="btn btn-sm" style="background-color: #f8a5a5; color: #5c4327; box-shadow: 1px 1px 4px rgba(0,0,0,0.2);"
+                               data-bs-toggle="modal"
+                               data-bs-target="#petDeleteModal-@pet.PetID"
+                               data-bs-toggle="tooltip"
+                               title="Delete Pet">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        </tr>
+                    <!-- Modal for Viewing Pet Details -->
+                    <div class="modal fade" id="petDetailsModal-@pet.PetID" tabindex="-1" aria-labelledby="petDetailsModalLabel-@pet.PetID" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 10px; background-color: #fff7e6;">
+                                <div class="modal-header" style="background-color: #ffd8a8; border-bottom: 1px solid #ffc078;">
+                                    <h5 class="modal-title" id="petDetailsModalLabel-@pet.PetID" style="color: #6a4c37; font-family: 'Merriweather', serif; font-weight: bold;">
+                                        Pet Details
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="font-family: 'Roboto', sans-serif; color: #5c534d;">
+                                    <ul class="list-unstyled">
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Name: </span>
+                                            <span>@pet.Name</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Age: </span>
+                                            <span>@pet.Age</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Breed: </span>
+                                            <span>@pet.Breed</span>
+                                        </li>
+                                        <li class="d-flex justify-content-left align-items-center mb-3">
+                                            <span style="font-weight: 600; margin-right: 15px;">Adoption Status: </span>
+                                            <span>@pet.AdoptionStatus</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer" style="background-color: #ffe8cc; border-top: 1px solid #ffc078;">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 20px;">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal for Deleting Pet -->
+                    <div class="modal fade" id="petDeleteModal-@pet.PetID" tabindex="-1" aria-labelledby="petDeleteModalLabel-@pet.PetID" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 10px; background-color: #fff7e6;">
+                                <div class="modal-header" style="background-color: #ffd8a8; border-bottom: 1px solid #ffc078;">
+                                    <h5 class="modal-title" id="petDeleteModalLabel-@pet.PetID" style="color: #6a4c37; font-family: 'Merriweather', serif; font-weight: bold;">
+                                        Confirm Pet Deletion
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h6>Are you sure you want to delete this pet?</h6>
+                                    <ul class="list-unstyled mt-3" style="font-family: 'Roboto', sans-serif; color: #5c534d;">
+                                        <li><strong>Name:</strong> @pet.Name</li>
+                                        <li><strong>Age:</strong> @pet.Age</li>
+                                        <li><strong>Breed:</strong> @pet.Breed</li>
+                                    </ul>
+                                    <form method="post" asp-action="Delete" asp-route-id="@pet.PetID">
+                                        
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <a href="#" class="btn btn-warning" data-bs-dismiss="modal">Cancel</a>
+                                    </form>
+                                   
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="d-flex justify-content-end">
+    <a asp-action="Create" class="btn mt-4" style="background-color: #decfa8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+        <i class="bi bi-plus-circle"></i> Add
+    </a>
+    <a class="btn mt-4 ms-3" style="background-color: #decfa8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);" onclick="downloadReport()">
+        <i class="bi bi-download"></i> PDF
+    </a>
+    </div>
+    <br />
+               
+
+@section Scripts {
+        <script>
+            // Enable Bootstrap Tooltips
+            document.addEventListener('DOMContentLoaded', function () {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            });
+        </script>
+        <script>
+        function downloadReport() {
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/Home/GenerateReportPet";
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+    </script>
+    <script>
+        // Check if TempData contains a success message and display it as an alert
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                    alert('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+}
+
+
+
+
+
+

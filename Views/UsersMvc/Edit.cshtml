@@ -1,0 +1,82 @@
+﻿@model PetAdoptionAPI.Models.Users
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0" style="background-color: #FFF9E6; border-radius: 12px; max-width: 600px; margin: 0 auto;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center"
+                style="font-family: 'Crimson Pro', serif;
+                       font-weight: 300;
+                       color: #8b4513;
+                       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);">
+                Edit User/Customer Informations
+            </h2>
+
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="UserID" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label" style="color: #5c4327;">Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background-color: #decfa8; color: #5c4327;"><i class="bi bi-person-fill"></i></span>
+                        <input asp-for="Name" class="form-control" placeholder="Enter user name" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 5px rgba(0,0,0,0.1);" />
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PhoneNumber" class="form-label" style="color: #5c4327;">Phone Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background-color: #decfa8; color: #5c4327;"><i class="bi bi-telephone-fill"></i></span>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 5px rgba(0,0,0,0.1);" />
+                    </div>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Role" class="form-label" style="color: #5c4327;">Role</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background-color: #decfa8; color: #5c4327;"><i class="bi bi-people-fill"></i></span>
+                        <input asp-for="Role" class="form-control" placeholder="Enter role (e.g., 'Adopter' or else)" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 5px rgba(0,0,0,0.1);" />
+                    </div>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label" style="color: #5c4327;">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background-color: #decfa8; color: #5c4327;"><i class="bi bi-envelope-fill"></i></span>
+                        <input asp-for="Email" class="form-control" placeholder="Enter user's email" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 1px 1px 5px rgba(0,0,0,0.1);" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a asp-action="Index" class="btn btn-secondary" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                        <i class="bi bi-arrow-left-circle"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-secondary ms-3" style="background-color: #f0e5d8; color: #5c4327; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                        <i class="bi bi-check-circle"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div><br />
+</div>
+@section Scripts {
+    <script>
+        // Check if TempData contains a success message and display it as an alert
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                    alert('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+}

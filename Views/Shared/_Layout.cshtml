@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PetAdoption</title>
+    
+    <link rel="stylesheet" href="https://bootswatch.com/5/simplex/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #FFFACD;
+        }
+
+        .custom-nav {
+            background-color: #F0C66E;
+        }
+
+        .navbar-brand {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.4rem;
+            transition: transform 0.3s ease;
+            color: #6B4226;
+        }
+
+            .navbar-brand:hover {
+                transform: scale(1.05);
+                color: #D2691E;
+            }
+
+        .navbar-nav .nav-link {
+            font-size: 1.0rem;
+            padding: 7px 11px;
+            color: #6B4226;
+            transition: color 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #f8f9fa;
+            }
+
+        .container {
+            flex: 1;
+        }
+
+        body footer {
+            background: linear-gradient(to right, #8B5E3C, #C48E62);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            
+        }
+
+        footer .footer-links {
+            margin: 1rem 0;
+        }
+
+        footer .footer-links a {
+            color: #f8f9fa;
+            text-decoration: none;
+            padding: 0.5rem;
+            font-size: 1.0rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        footer .footer-links a:hover {
+            color: #17a2b8; 
+            transform: translateY(-5px); 
+        }
+
+
+        footer .footer-bottom {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+
+        
+            footer {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg custom-nav shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">🐾 PetAdoption</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav01">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item ms-4">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index"> <i class="bi bi-house-door-fill"></i></a>
+                        </li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="UsersMvc" asp-action="Index">Users</a></li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="PetsMvc" asp-action="Index">Pets</a></li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="AdoptionsMvc" asp-action="Index">Adoptions</a></li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="Home" asp-action="FAQ">FAQs</a></li>
+                        <li class="nav-item ms-4"><a class="nav-link" asp-controller="Home" asp-action="Report">Report</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <a asp-controller="Home" asp-action="TnC">Terms and Condition</a>
+            <a asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2024 - PetAdoption | All Rights Reserved
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

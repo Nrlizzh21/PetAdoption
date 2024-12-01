@@ -1,0 +1,153 @@
+﻿@model ReportViewModel
+<style>
+    .report-section {
+        margin-bottom: 40px;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    table th, table td {
+        text-align: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .btn-warning {
+        background-color: #ffcc00;
+        border-color: #ffcc00;
+    }
+
+    .btn-warning:hover {
+        background-color: #e6b800;
+        border-color: #e6b800;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    p {
+        font-size: 18px;
+        color: #6c757d;
+    }
+</style>
+<h1 class="mt-4 text-center">Pet Adoption Reports</h1>
+<p class="text-center">Access detailed reports about pets, users, and adoptions here. Preview the data before generating the PDF.</p>
+
+<!-- Section for Users -->
+<div class="report-section">
+    <h3 class="mt-4">Users Report</h3>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.UserID</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Role</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section for Pets -->
+<div class="report-section">
+    <h3 class="mt-4">Pets Report</h3>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Breed</th>
+                <th>Adoption Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pet in Model.Pets)
+            {
+                <tr>
+                    <td>@pet.PetID</td>
+                    <td>@pet.Name</td>
+                    <td>@pet.Age</td>
+                    <td>@pet.Breed</td>
+                    <td>@pet.AdoptionStatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section for Adoptions -->
+<div class="report-section">
+    <h3 class="mt-4">Adoptions Report</h3>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Contact</th>
+                <th>Pet</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var adoption in Model.Adoptions)
+            {
+                <tr>
+                    <td>@adoption.AdoptionID</td>
+                    <td>@adoption.User.Name</td>
+                    <td>@adoption.User.PhoneNumber</td>
+                    <td>@adoption.Pet.Name</td>
+                    <td>@adoption.Status</td>
+                    <td>@adoption.RequestDate.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Button to generate the PDF report -->
+<div class="text-center mt-4">
+    <button class="btn btn-warning" onclick="downloadReport()">Generate PDF Report</button>
+</div>
+
+@section Scripts {
+    <script>
+        function downloadReport() {
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/Home/GenerateReport"; // Adjust this action based on the report type you want to generate
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+    </script>
+}
+
+
